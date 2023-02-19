@@ -1,8 +1,8 @@
-def BuildSolution()
+def BuildSolution(configuration)
 {
+    def workspace = 
     powershell """cd 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin'
-                  .\\MSBuild.exe %WORKSPACE%\\Fizzobuzzci.sln /p:Platform=%platform%,Platform=
-                  Any CPU" """
+                  .\\MSBuild.exe ${env.WORKSPACE}\\Fizzobuzzci.sln /p:Configuration=${configuration},Platform="Any CPU" """
 }
 
 pipeline
@@ -10,7 +10,7 @@ pipeline
     agent none
     options
     {
-        timeout(time: 120, unit: 'SECONDS')
+        timeout(time: 1200, unit: 'SECONDS')
     }
 
     stages
@@ -38,25 +38,25 @@ pipeline
                         BuildSolution('Release')
                     }
                 }
+            }
+        }
 
-                stage('Merge Testing')
+        stage('Merge Testing')
+        {
+            agent any
+            when
+            {
+                beforeAgent true
+                anyOf
                 {
-                    agent any
-                    when
-                    {
-                        beforeAgent: true
-                        anyOf
-                        {
-                            changeRequest target: 'main'
-                            branch: 'main'
-                        }
-                    }
-                    steps
-                    {
-                        // Do some testing to protect main branch (and when main branch has code merged to it).
-                        echo('Placeholder testing...')
-                    }
+                    changeRequest(target: 'main')
+                    branch('main')
                 }
+            }
+            steps
+            {
+                // Do some testing to protect main branch (and when main branch has code merged to it).
+                echo('Placeholder testing...')
             }
         }
     }
