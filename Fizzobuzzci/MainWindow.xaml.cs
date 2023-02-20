@@ -29,8 +29,8 @@ namespace Fizzobuzzci
 
         private void NumTermsText_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Ensure string is a valid and non-negative integer.
-            if (int.TryParse(NumTermsText.Text, out int i) && i >= 0)
+            // Ensure string is a valid and positive integer.
+            if (int.TryParse(NumTermsText.Text, out int i) && i > 0)
             {
                 FizzobuzzciGen.NumTerms = (uint)i;
             }
@@ -43,8 +43,8 @@ namespace Fizzobuzzci
 
         private void Y_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Ensure string is a valid and non-negative integer.
-            if (int.TryParse(YText.Text, out int i) && i >= 0)
+            // Ensure string is a valid and positive integer.
+            if (int.TryParse(YText.Text, out int i) && i > 0)
             {
                 FizzobuzzciGen.Y = (uint)i;
             }

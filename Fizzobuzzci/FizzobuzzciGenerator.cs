@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Fizzobuzzci
 {
-    class FizzobuzzciGenerator
+    public class FizzobuzzciGenerator
     {
         // Could either use Double or multiple Int64s per term to account for overflow, but that will just be a known deficiency for now.
         private List<Int64> _terms = new();

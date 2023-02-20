@@ -1,8 +1,14 @@
 def BuildSolution(configuration)
 {
-    def workspace = 
     powershell """cd 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin'
                   .\\MSBuild.exe ${env.WORKSPACE}\\Fizzobuzzci.sln /p:Configuration=${configuration},Platform="Any CPU" /t:build /restore"""
+}
+
+def RunTests(configuration)
+{
+    // Run vstest console on test project DLL generated. Ensure something is logged that Jenkins can consume to display test results.
+    powershell "& 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow\\VsTest\\vstest.console.exe' /Logger:trx Test\\bin\\${configuration}\\net6.0-windows\\FizzobuzzciTest.dll"
+    mstest testResultsFile:"TestResults/*.trx", keepLongStdio: true
 }
 
 pipeline
@@ -26,6 +32,7 @@ pipeline
                     {
                         git(branch: env.BRANCH_NAME, credentialsId: 'b15ff232-f75e-413e-b391-0d2a72b85d54', url: 'https://github.com/elynch93/Fizzobuzzci')
                         BuildSolution('Debug')
+                        RunTests('Debug')
                     }
                 }
 
@@ -36,6 +43,7 @@ pipeline
                     {
                         git(branch: env.BRANCH_NAME, credentialsId: 'b15ff232-f75e-413e-b391-0d2a72b85d54', url: 'https://github.com/elynch93/Fizzobuzzci')
                         BuildSolution('Release')
+                        RunTests('Release')
                     }
                 }
             }
@@ -56,7 +64,7 @@ pipeline
             steps
             {
                 // Do some testing to protect main branch (and when main branch has code merged to it).
-                echo('Placeholder testing...')
+                echo('Merge testing...')
             }
         }
     }

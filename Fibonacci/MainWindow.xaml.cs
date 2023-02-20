@@ -43,8 +43,8 @@ namespace Fibonacci
 
         private void Y_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Ensure string is a valid and non-negative integer.
-            if (int.TryParse(YText.Text, out int i) && i >= 0)
+            // Ensure string is a valid and positive integer.
+            if (int.TryParse(YText.Text, out int i) && i > 0)
             {
                 FibonacciGen.Y = (uint)i;
             }
@@ -57,8 +57,8 @@ namespace Fibonacci
 
         private void Z_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Ensure string is a valid and non-negative integer.
-            if (int.TryParse(ZText.Text, out int i) && i >= 0)
+            // Ensure string is a valid and positive integer.
+            if (int.TryParse(ZText.Text, out int i) && i > 0)
             {
                 FibonacciGen.Z = (uint)i;
             }
