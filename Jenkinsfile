@@ -2,7 +2,7 @@ def BuildSolution(configuration)
 {
     def workspace = 
     powershell """cd 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin'
-                  .\\MSBuild.exe ${env.WORKSPACE}\\Fizzobuzzci.sln /p:Configuration=${configuration},Platform="Any CPU" """
+                  .\\MSBuild.exe ${env.WORKSPACE}\\Fizzobuzzci.sln /p:Configuration=${configuration},Platform="Any CPU" /t:build /restore"""
 }
 
 pipeline
